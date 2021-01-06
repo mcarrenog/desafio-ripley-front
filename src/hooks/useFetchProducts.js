@@ -1,23 +1,52 @@
 import { useEffect, useState } from 'react';
-import {getProducts} from '../helpers/Products';
+import { getProducts } from '../helpers/Products';
 
-export const useFetchProducts = (search) => {
+// export const caca = (search) => {
 
+//     console.log(`useFetch: ${search}`)
+
+//     const [state, setState] = useState({
+//         data: [],
+//         loading: true
+//     });
+
+//     useEffect(() => {
+//         getProducts(search).then(prod => {
+
+
+//             setState({
+//                 data: prod,
+//                 loading: false
+//             });
+//         });
+//     }, [search]);
+
+//     return state;
+// }
+
+
+export const useFetchProducts = (category) => {
+   
+    console.log('category', category)
     const [state, setState] = useState({
         data: [],
         loading: true
     });
 
     useEffect(() => {
-        getProducts(search).then(prod => {
-
-
+        
+        getProducts(category).then( imgs => {
             setState({
-                data: prod,
+                data: imgs,
                 loading: false
-            });
-        });
-    }, [search]);
+            })
+
+            console.log(imgs)
+        })
+       
+    }, [category])
+
+   
 
     return state;
 }

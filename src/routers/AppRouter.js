@@ -1,27 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     BrowserRouter as Router,
-    Switch,
-    Routenk,
-    Route
+    Route,
+    Switch
 } from 'react-router-dom';
 
-import { ProductScreen } from '../components/product/ProductScreen';
+
 import { MyNavbar } from '../components/ui/MyNavbar';
 import { HomeScreen } from '../components/product/HomeScreen';
 import { CrudScreen } from '../components/product/CrudScreen';
+import { ProductScreen } from '../components/product/ProductScreen';
+
 
 
 export const AppRouter = () => {
+
+    const [search, setSearch] = useState([]);
+  
     return (
         <Router>
             <div>
-
-                <MyNavbar />
+            <MyNavbar setSearch={setSearch} />
+              <ol>  {
+                
+                
+                search.map((category) =>
+                <ProductScreen
+                    key={category}
+                    search={category} />
+            )
+                }
+                </ol>
 
                 <Switch>
                     <Route exact path="/" component={HomeScreen} />
-                    <Route exact path='/crud' component= {CrudScreen}/>
+                    <Route exact path='/crud' component={CrudScreen} />
+                    
                 </Switch>
             </div>
         </Router>
