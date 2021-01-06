@@ -78,5 +78,4 @@ export const UseFetchInsertProducts = (product) => {
 
    
 
-    return state;
 }

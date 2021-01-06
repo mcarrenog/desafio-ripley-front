@@ -58,25 +58,35 @@ export const getAllProducts = async () => {
 // }
 
 export const insertProduct = async (data) => {
-
-    console.log('data', data)
-
-
     const url = `http://localhost:3000/products`
 
+    var params = {
+        id: data.id,
+        nombre: data.nombre,
+        marca: data.marca,
+        descripcion: data.descripcion,
+        precio: data.precio,
+        imagen: data.imagen
+    };
 
-    var formData = new FormData();
-
-    for (var k in data) {
-        formData.append(k, data[k]);
+    var formBody = [];
+    for (var property in params) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(params[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
     }
+    formBody = formBody.join("&");
+
 
     var request = {
         method: 'POST',
+        
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+
+            'Accept': 'application/json; charset=utf-8'
         },
-        body: formData
+        body: formBody
     };
 
     const response = await fetch(url, request);
@@ -84,39 +94,55 @@ export const insertProduct = async (data) => {
     return response.json();
 }
 
-export const updateProduct = async (id, data = {}) => {
+export const updProduct = async (id, data = {}) => {
 
     const url = `http://localhost:3000/products/${id}`
-    const response = await fetch(url, {
+
+    console.log(url)
+
+    var params = {
+        nombre: data.nombre,
+        marca: data.marca,
+        descripcion: data.descripcion,
+        precio: data.precio,
+        imagen: data.imagen
+    };
+
+    var formBody = [];
+    for (var property in params) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(params[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+
+    var request = {
         method: 'PUT',
-        mode: 'no-cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+
+            'Accept': 'application/json; charset=utf-8'
         },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(data)
-    });
+        body: formBody
+    };
+
+    const response = await fetch(url, request);
 
     return response.json();
 }
 
-export const deleteProduct = async (id) => {
+export const delProduct = async (id) => {
 
     const url = `http://localhost:3000/products/${id}`
-    const response = await fetch(url, {
-        method: 'DELETE',
-        mode: 'no-cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer'
+  
+    const resp = await fetch(url, {
+        method:'DELETE',
+        origin: '*'
     });
 
-    return response.json();
+
+    const { results } = await resp.json();
+
+    return results;
 }

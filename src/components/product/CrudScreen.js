@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import ProductTable from './ProductTable'
-import { v4 as uuidv4 } from 'uuid';
+
 import '../../CrudScreen.css'
 
-import { useFetchAllProducts, UseFetchInsertProducts } from '../../hooks/useFetchProducts'
+import { useFetchAllProducts } from '../../hooks/useFetchProducts'
 import { AddProductForm } from './AddProductForm'
 import { EditProductForm } from './EditProductForm'
+import { insertProduct, delProduct, updProduct } from '../../helpers/Products';
 
 export const CrudScreen = () => {
 
@@ -15,18 +16,24 @@ export const CrudScreen = () => {
 
     //add Product
     const addProduct = function (product) {
-        product._id = uuidv4();
-
+        
+        insertProduct(product);
         setProducts([...products, product]);
         //llamar a api metodo post
-        localStorage.setItem('product', JSON.stringify(product));
+       
+        //localStorage.setItem('product', JSON.stringify(product));
+       
     }
+
+
 
     //delete Product
     const deleteProduct = (id) => {
         console.log(id)
-        //llamar a api metodo delete
+        
+        delProduct(id);
         setProducts(products.filter(product => product.id !== id));
+        
     }
 
     //Edit Product
@@ -57,15 +64,11 @@ export const CrudScreen = () => {
 
     const updateProduct = (id, updatedProduct) => {
         setEditing(false);
-
+        updProduct(id, updatedProduct);
         setProducts(products.map( product => (product.id === id ? updatedProduct : product)))
     }
 
-    let retrievedObject = localStorage.getItem('product');
 
-    let cleanObejct = JSON.parse(retrievedObject);
-
-    console.log(cleanObejct)
 
 
     //const { data, loading: load } = UseFetchInsertProducts(cleanObejct);

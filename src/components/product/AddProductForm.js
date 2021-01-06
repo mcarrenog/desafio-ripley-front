@@ -1,25 +1,45 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
-import { UseFetchInsertProducts } from '../../hooks/useFetchProducts'
+
 
 export const AddProductForm = (props) => {
 
     const { register, errors, handleSubmit } = useForm();
 
     const onSubmit = (data, e) => {
+
+      //  data.imagen = localStorage.getItem('productImage');
         console.log(data);
 
         props.addProduct(data);
 
-    
-
-     
 
         e.target.reset();
     }
 
+    const onChange = (e) => {
+
+        let file = e.target.files[0]
+        console.log('file to upload: ', file);
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = handleReaderLoaded.bind(this);
+
+            reader.readAsBinaryString(file);
+        }
+    }
+
+    const handleReaderLoaded = (readerEvt) => {
+        let binaryString = readerEvt.target.result;
+
+        
+          localStorage.setItem('productImage', btoa(binaryString)) ;
+        
+    }
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} >
             <label>ID</label>
             <input type="text" name="id" ref={
                 register({
@@ -66,9 +86,13 @@ export const AddProductForm = (props) => {
             } />
             <div>{errors?.precio?.message}</div>
 
-            <label>Imagen</label>
-            <input type="text" name="imagen" />
 
+            <label>Imagen</label>
+            <input type="file" name="imagen" accept=".jpg" onChange={(e) => onChange(e)} />
+
+     
+
+            <br /><br />
             <button>Agregar Nuevo Producto</button>
         </form>
     )
