@@ -10,27 +10,33 @@ export const ProductScreen = (search) => {
 
     console.log(search)
 
-const {search: test} = search;
+    const { search: test } = search;
 
     const { data: images, loading } = useFetchProducts(test);
 
     console.log(images)
     return (
         <>
-            <h1>{test}</h1>
+
 
 
             {loading && <p>Loading</p>}
 
-            <div className="card-grid">
-            {
-                images.map(img => (
-                    <ProductGridItem
-                        key={img.id}
-                        {...img} />
-                ))
-            }
-            </div>
+          
+                {
+                    images.map(img => (
+                        <ProductGridItem
+                            key={img.id}
+                            id={img.id}
+                            nombre={img.nombre}
+                            marca={img.marca}
+                            descripcion={img.descripcion}
+                            imagen={img.imagen}
+                            precio={img.precio}
+                            precioDescuento={img.precioDescuento} />
+                    ))
+                }
+           
 
         </>
     )

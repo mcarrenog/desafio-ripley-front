@@ -21,7 +21,7 @@ export const AppRouter = () => {
         <Router>
             <div>
             <MyNavbar setSearch={setSearch} />
-              <ol>  {
+               {
                 
                 
                 search.map((category) =>
@@ -30,7 +30,7 @@ export const AppRouter = () => {
                     search={category} />
             )
                 }
-                </ol>
+                
 
                 <Switch>
                     <Route exact path="/" component={HomeScreen} />

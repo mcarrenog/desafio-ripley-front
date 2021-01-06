@@ -1,5 +1,15 @@
-.card-grid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+body {
+  background: linear-gradient(to right, #c04848, #480048);
+  min-height: 100vh;
+  color: white;
+  
+}
+
+.text-gray {
+  color: #aaa
+}
+
+img {
+  height: 170px;
+  width: 140px
+}
